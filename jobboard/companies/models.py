@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from companies.validators import validate_logo_size,logo_upload_path
-
+from professions.models import Profession
 
 class Company(models.Model):
     owner = models.OneToOneField(User,on_delete=models.CASCADE,related_name='company',verbose_name='Владелец')
@@ -25,6 +25,7 @@ class Company(models.Model):
 class Vacancy(models.Model):
     company = models.ForeignKey(Company,on_delete=models.CASCADE,related_name='vacancies',verbose_name='Компания')
     title = models.CharField(max_length=255,verbose_name='Название вакансии')
+    profession = models.ForeignKey(Profession,on_delete=models.CASCADE,verbose_name='Профессия',default=None)
     description = models.TextField(verbose_name='Описание')
     salary = models.DecimalField(max_digits=10,decimal_places=2,blank=True,null=True,verbose_name='Заработная плата')
     experience = models.CharField(max_length=255,blank=True,null=True,verbose_name='Требуемый опыт')

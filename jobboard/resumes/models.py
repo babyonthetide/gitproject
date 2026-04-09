@@ -1,8 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
+from professions.models import Profession
+
 
 class Resume(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='resumes',verbose_name='Пользователь')
+    profession = models.ForeignKey(Profession,on_delete=models.CASCADE,verbose_name='Профессия',default=None)
     first_name = models.CharField(max_length=100,verbose_name='Имя')
     last_name = models.CharField(max_length=100,verbose_name='Фамилия')
     middle_name = models.CharField(max_length=100,blank=True,null=True,verbose_name='Отчество')
