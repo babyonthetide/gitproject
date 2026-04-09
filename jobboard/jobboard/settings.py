@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     #custom_app
     'users',
     'companies',
+    'resumes'
 ]
 
 MIDDLEWARE = [
