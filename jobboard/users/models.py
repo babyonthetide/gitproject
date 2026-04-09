@@ -16,5 +16,9 @@ class Profile(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name='Профиль'
+        verbose_name_plural='Профили'
+
     def __str__(self):
         return self.user.username
