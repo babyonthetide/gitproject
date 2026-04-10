@@ -72,3 +72,18 @@ class Vacancy(models.Model):
 
     def __str__(self):
         return f'{self.title} в {self.company.name}'
+
+
+class FeedbackCompany(models.Model):
+    company = models.ForeignKey(Company,on_delete=models.CASCADE,related_name='feedbacks',verbose_name='Компания')
+    comment = models.TextField(verbose_name='Текст отзыва')
+    rating = models.PositiveSmallIntegerField(choices=[(i, str(i)) for i in range(1,6)],verbose_name='Оценка')
+    created_at = models.DateTimeField(auto_now_add=True,verbose_name='Создано')
+    updated_at = models.DateTimeField(auto_now=True,verbose_name='Обновлено')
+
+    class Meta:
+        verbose_name = 'Отзыв'
+        verbose_name_plural='Отзывы'
+
+    def __str__(self):
+        return f'Отзыв о {self.company} - {self.rating}/5'
