@@ -28,7 +28,18 @@ class Vacancy(models.Model):
     profession = models.ForeignKey(Profession,on_delete=models.CASCADE,verbose_name='Профессия',default=None)
     description = models.TextField(verbose_name='Описание')
     salary = models.DecimalField(max_digits=10,decimal_places=2,blank=True,null=True,verbose_name='Заработная плата')
+    salary_type = models.CharField(max_length=50,choices=[
+        ("week",'Раз в неделю'),
+        ('month','Раз в месяц'),
+        ("twice_monthly", "2 раза в месяц"),
+        ("daily", "Ежедневно"),
+        ("hourly", "По часам")
+    ],default="month",verbose_name='Тип выплаты')
     experience = models.CharField(max_length=255,blank=True,null=True,verbose_name='Требуемый опыт')
+    experience_required = models.CharField(max_length=50,choices=[
+        ('with_experience','С опытом'),
+        ('without_experience','Без опыта')
+    ],default='with_experience',verbose_name='Тип требований')
     employment_type = models.CharField(
         max_length=50,
         choices=[
