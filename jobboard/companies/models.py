@@ -22,6 +22,14 @@ class Company(models.Model):
         return self.name
 
 
+    def average_rating(self):
+        feedbacks = self.feedbacks.all()
+        if feedbacks.exsists():
+            return round(sum(f.rating for f in feedbacks) / feedbacks.count(), 1)
+        return 0
+
+
+
 class Vacancy(models.Model):
     company = models.ForeignKey(Company,on_delete=models.CASCADE,related_name='vacancies',verbose_name='Компания')
     title = models.CharField(max_length=255,verbose_name='Название вакансии')
