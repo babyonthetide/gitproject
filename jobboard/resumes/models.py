@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from professions.models import Profession
-
+from companies.models import Company
 
 class Resume(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='resumes',verbose_name='Пользователь')
@@ -25,3 +25,22 @@ class Resume(models.Model):
 
     def __str__(self):
         return f'Резюме {self.first_name} {self.last_name}'
+
+
+class ResumeView(models.Model):
+    company = models.ForeignKey(Company,on_delete=models.CASCADE,related_name='resume_views',verbose_name='Компания')
+    resume = models.ForeignKey(Resume,on_delete=models.CASCADE,related_name='resume_views',verbose_name='Резюме')
+    date = models.DateField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Просмотр'
+        verbose_name_plural = 'Просмотры'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['company','resume','date'],
+                name = 'unique_resume_view_per_day'
+            )
+        ]
+
+    def __str__(self):
+        return f'{self.company.name} просмотрел {self.resume} ({self.date}) '
