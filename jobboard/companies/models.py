@@ -100,3 +100,23 @@ class FeedbackCompany(models.Model):
 
     def __str__(self):
         return f'Отзыв о {self.company} - {self.rating}/5'
+
+
+class FavoriteVacancy(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='favorite_vacancy',verbose_name='Пользователь')
+    vacancy = models.ForeignKey(Vacancy,on_delete=models.CASCADE,related_name='favorite_vacancy',verbose_name='Вакансия')
+    created_at = models.DateTimeField(auto_now_add=True,verbose_name='Добавлено')
+
+    class Meta:
+        verbose_name = 'Избранная вакансия'
+        verbose_name_plural = 'Избранные вакансии'
+
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user','vacancy'],
+                name='unique_favorite_vacancy'
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.user} добавил в избранное {self.vacancy}"
