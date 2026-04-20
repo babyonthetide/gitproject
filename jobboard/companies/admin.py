@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Company, Vacancy,FeedbackCompany
+from .models import Company, Vacancy, FeedbackCompany, FavoriteVacancy
 # Register your models here.
 
 @admin.register(Company)
@@ -26,3 +26,10 @@ class FeedBackCompanyAdmin(admin.ModelAdmin):
     list_display = ('id','company','comment','rating','created_at')
     list_filter = ('rating','created_at')
     search_fields = ('company__name','comment')
+
+
+@admin.register(FavoriteVacancy)
+class FavoriteVacancyAdmin(admin.ModelAdmin):
+    list_display = ('id','user','vacancy','created_at')
+    search_fields = ('user__username','vacancy__title')
+    list_filter = ('created_at',)
