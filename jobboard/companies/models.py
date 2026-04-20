@@ -76,6 +76,15 @@ class Vacancy(models.Model):
     working_hours = models.CharField(max_length=20,blank=True,null=True,verbose_name='Рабочие часы')
     responsibilities = models.TextField(blank=True,null=True,verbose_name='Обязанности')
     conditions = models.TextField(blank=True,null=True,verbose_name='Условия работы')
+    city = models.CharField(max_length=30,choices=[
+        ("moscow", "Москва"),
+        ("spb", "Санкт-Петербург"),
+        ("kazan", "Казань"),
+        ("novosibirsk", "Новосибирск"),
+        ("yekaterinburg", "Екатеринбург"),
+        ("sochi", "Сочи")
+    ],default='moscow',verbose_name='Город')
+    street = models.CharField(max_length=50,blank=True,null=True,verbose_name='Улица')
     created_at = models.DateTimeField(auto_now_add=True,verbose_name='Создано')
     updated_at = models.DateTimeField(auto_now=True,verbose_name='Обновлено')
 
