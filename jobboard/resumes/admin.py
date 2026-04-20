@@ -1,5 +1,5 @@
 from django.contrib import admin
-from resumes.models import Resume
+from resumes.models import Resume,ResumeView
 # Register your models here.
 
 @admin.register(Resume)
@@ -15,3 +15,9 @@ class ResumeAdmin(admin.ModelAdmin):
         ('Желаемая зарплата', {'fields': ('desired_salary',)}),
         ('Метаданные', {'fields': ('created_at', 'updated_at')})
     ]
+
+
+@admin.register(ResumeView)
+class ResumeViewAdmin(admin.ModelAdmin):
+    list_display = ('company','resume','date')
+    list_filter = ('company','date')
