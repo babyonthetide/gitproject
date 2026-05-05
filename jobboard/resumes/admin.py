@@ -10,7 +10,7 @@ class ResumeAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at','updated_at')
     fieldsets = [
         ('Личные данные',
-         {'fields': ('user', 'first_name', 'last_name', 'middle_name', 'gender', 'phone', 'date_of_birth')}
+         {'fields': ('user', 'first_name', 'last_name', 'middle_name', 'gender', 'phone', 'date_of_birth','profession')}
          ),
         ('Желаемая зарплата', {'fields': ('desired_salary',)}),
         ('Метаданные', {'fields': ('created_at', 'updated_at')})
