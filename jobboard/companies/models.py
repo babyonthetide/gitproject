@@ -30,6 +30,11 @@ class Company(models.Model):
             return 0
 
 
+    def count_feedbacks(self):
+        feedbacks = self.feedbacks.count()
+        return feedbacks
+
+
 
 class Vacancy(models.Model):
     company = models.ForeignKey(Company,on_delete=models.CASCADE,related_name='vacancies',verbose_name='Компания')

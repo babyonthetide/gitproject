@@ -3,8 +3,10 @@ from django.views.generic import TemplateView
 from companies.models import Vacancy
 from core.models import SiteSettings
 from communications.models import Invitation,Response
+from homepage_user.mixins import NoCompanyRequiredMixin
 
-class HomePageView(TemplateView):
+
+class HomePageView(NoCompanyRequiredMixin,TemplateView):
     template_name = 'homepage_user/homepage.html'
 
     def get_context_data(self, **kwargs):
@@ -20,4 +22,5 @@ class HomePageView(TemplateView):
         context['total_invitation'] = total_invitation
         #Получаем 7 последних вакансий
         context['vacancies'] = Vacancy.objects.select_related('company','profession').all()[:7]
+        #
         return context

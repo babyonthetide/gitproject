@@ -103,7 +103,7 @@
             <p class="mb-1">{{ vacancy.company.name }}</p>
             <div class="d-flex align-items-center mb-2">
               <!-- Здесь мы используем average_rating для отображения средней оценки компании. К сожалению, пока не можем показать общее количество отзывов, так как еще не передали эту информацию через представление. Однако в будущем мы обязательно исправим это. -->
-              <i class="bi bi-star-fill text-warning me-1"></i> {{ vacancy.company.average_rating }} • 88 отзывов
+              <i class="bi bi-star-fill text-warning me-1"></i> {{ vacancy.company.average_rating }} • {{ vacancy.company.count_feedbacks }} отзывов
             </div>
             <p class="mb-2">{{ vacancy.get_city_display }}, {{ vacancy.street }}</p>
             <form method="POST" action="/apply">
