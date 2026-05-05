@@ -19,5 +19,5 @@ class HomePageView(TemplateView):
         context['total_responses'] = total_responses
         context['total_invitation'] = total_invitation
         #Получаем 7 последних вакансий
-        context['vacansies'] = Vacancy.objects.select_related('company','profession').all()[:7]
+        context['vacancies'] = Vacancy.objects.select_related('company','profession').all()[:7]
         return context

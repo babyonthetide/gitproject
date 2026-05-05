@@ -70,30 +70,50 @@
 
       <!-- Вакансии -->
       <div class="row g-4">
+        <!-- Тут мы перебиваем все наши вакансии. -->
+        {% for vacancy in vacancies%}
         <div class="col-12">
+
           <div class="card p-3">
             <div class="d-flex mb-1">
               <i class="bi bi-star me-2" title="Избранное"></i>
               <i class="bi bi-eye-slash" title="Скрыть"></i>
             </div>
             <div class="d-flex justify-content-between align-items-center mb-2">
-              <h5 class="mb-0">Frontend разработчик</h5>
+              <h5 class="mb-0">{{ vacancy.title }}</h5>
+              <!-- Тут мы проверяем, есть ли у компании логотип! -->
+              {% if vacancy.company.logo %}
+              <img src="{{ vacancy.company.logo.url }}" alt="Логотип компании" class="company-logo">
+              {% else %}
               <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/ChatGPT-Logo.svg/1024px-ChatGPT-Logo.svg.png" alt="Логотип компании" class="company-logo">
+              {% endif %}
+
             </div>
-            <p class="mb-1">от 140 000 ₽ за месяц</p>
-            <p class="mb-1">АО Дороги и Мосты</p>
+            {% if vacancy.salary %}
+            <!-- Здесь мы используем поле salary_type, но добавляем перед ним «get_», а после — «_display». Это позволяет отображать значения поля, а не его ключ. -->
+            <p class="mb-1">{{ vacancy.salary }} ₽ {{ vacancy.get_salary_type_display }}</p>
+            {% elif vacancy.salary_from and not vacancy.salary_to %}
+            <p class="mb-1">от {{ vacancy.salary_from }} ₽ {{ vacancy.get_salary_type_display }}</p>
+            {% elif vacancy.salary_from and vacancy.salary_to %}
+            <p class="mb-1">от {{ vacancy.salary_from }} ₽ до {{ vacancy.salary_to }} ₽ {{ vacancy.get_salary_type_display }}</p>
+            {% else %}
+            <p class="mb-1">Договорная</p>
+            {% endif %}
+
+            <p class="mb-1">{{ vacancy.company.name }}</p>
             <div class="d-flex align-items-center mb-2">
-              <i class="bi bi-star-fill text-warning me-1"></i> 4.4 • 88 отзывов
+              <!-- Здесь мы используем average_rating для отображения средней оценки компании. К сожалению, пока не можем показать общее количество отзывов, так как еще не передали эту информацию через представление. Однако в будущем мы обязательно исправим это. -->
+              <i class="bi bi-star-fill text-warning me-1"></i> {{ vacancy.company.average_rating }} • 88 отзывов
             </div>
-            <p class="mb-2">Город, улица</p>
+            <p class="mb-2">{{ vacancy.get_city_display }}, {{ vacancy.street }}</p>
             <form method="POST" action="/apply">
               <button type="submit" class="btn btn-primary">Откликнуться</button>
             </form>
           </div>
+
         </div>
+        {% endfor %}
       </div>
-    </div>
-  </div>
 </section>
 
 {% endblock %}

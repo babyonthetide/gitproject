@@ -24,9 +24,10 @@ class Company(models.Model):
 
     def average_rating(self):
         feedbacks = self.feedbacks.all()
-        if feedbacks.exsists():
+        if feedbacks.exists():
             return round(sum(f.rating for f in feedbacks) / feedbacks.count(), 1)
-        return 0
+        else:
+            return 0
 
 
 
