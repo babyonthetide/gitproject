@@ -46,7 +46,11 @@
         <div class="d-flex gap-3 mb-3">
           <button class="btn btn-primary btn-apply">Откликнуться</button>
           <button class="btn btn-outline-primary btn-apply">Связаться</button>
-          <button class="btn btn-light"><i class="bi bi-heart"></i></button>
+          <button class="btn btn-light favorite-btn"
+        data-id="{{ vacancy.id }}"
+        title="Добавить в избранное">
+    <i class="{% if vacancy.id in user_favorites %}bi bi-heart-fill text-danger{% else %}bi bi-heart{% endif %}"></i>
+</button>
           <!-- Контейнер для кнопки три точки + меню -->
           <div class="position-relative">
             <button class="btn btn-light" id="more-options-btn">
@@ -168,7 +172,15 @@
             <div class="card p-3">
               <!-- Иконки -->
               <div class="d-flex mb-1">
-                <i class="bi bi-star me-2" title="Избранное"></i>
+                <i class="favorite-icon
+
+{% if vacancy.id in user_favorites %}bi bi-star-fill text-warning{% else %}bi bi-star{% endif %}"
+
+data-id="{{ vacancy.id }}"
+
+title="Избранное">
+
+</i>
                 <i class="bi bi-eye-slash" style="cursor: pointer;" title="Скрыть вакансию"></i>
               </div>
 

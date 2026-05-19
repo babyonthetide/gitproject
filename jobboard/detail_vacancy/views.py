@@ -1,7 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404
+from django.template.context_processors import request
 from django.views.generic import DetailView
-from companies.models import Vacancy, Company, FeedbackCompany
+from companies.models import Vacancy, Company, FeedbackCompany, FavoriteVacancy
 from core.models import SiteSettings
 from users.models import Profile
 from detail_vacancy.utils import render_stars_html,years_declension,split_lines
@@ -41,4 +42,6 @@ class DetailVacancyView(LoginRequiredMixin,DetailView):
         )
         context['responsibilities'] = split_lines(vacancy.responsibilities)
         context['conditions'] = split_lines(vacancy.conditions)
+        #Список избранных вакансий
+        context['user_favorites'] = FavoriteVacancy.objects.filter(user=self.request.user).values_list('vacancy_id', flat=True)
         return context

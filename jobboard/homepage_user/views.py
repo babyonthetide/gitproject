@@ -35,5 +35,7 @@ class HomePageView(NoCompanyRequiredMixin,TemplateView):
         #Получаем 7 последних вакансий
         vacancies = Vacancy.objects.select_related('company','profession').exclude(hidden_by_user__user=self.request.user)
         filtered_vacancies = filterd_objects_with_filter_type(vacancies,filter_type)[:7]
+        #Избранные вакнасии
+        context['user_favorites'] = FavoriteVacancy.objects.filter(user=self.request.user).values_list('vacancy_id', flat=True)
         context['vacancies'] = filtered_vacancies
         return context
