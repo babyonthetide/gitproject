@@ -61,34 +61,61 @@
     <!-- Правая колонка -->
     <div class="col-md-9">
       <div class="mb-4 d-flex flex-wrap gap-2">
-        <span class="badge bg-secondary">Для вас</span>
-        <span class="badge bg-secondary">Подработка</span>
-        <span class="badge bg-secondary">от 16 лет</span>
-        <span class="badge bg-secondary">Стажировка</span>
-        <span class="badge bg-secondary">Удаленка</span>
-      </div>
+        <!-- Категория "Для вас" будет иметь ссылку на домашнюю страницу. Мы проверяем, есть ли в GET-запросе параметр filter. Если его нет, добавляем стиль bg-primary, который выделяет эту категорию среди других. Это помогает понять, в какой именно категории мы находимся. В противном случае добавляем стиль bg-secondary, который делает цвет категории сероватым, как и у остальных. -->
+        <a href="/"
+           class="badge {% if not request.GET.filter %}bg-primary{% else %}bg-secondary{% endif %}"
+           style="text-decoration:none;">
+           Для вас
+        </a>
+        
+        <!-- Здесь используется та же логика, но мы отправляем GET-запрос на домашнюю страницу с параметром filter и значением part_time. Это позволяет бэкенду понять, как именно фильтровать данные.  -->
+        <a href="?filter=part_time"
+           class="badge {% if request.GET.filter == 'part_time' %}bg-primary{% else %}bg-secondary{% endif %}"
+           style="text-decoration:none;">
+           Подработка
+        </a>
+
+        <a href="?filter=without_experience"
+           class="badge {% if request.GET.filter == 'without_experience' %}bg-primary{% else %}bg-secondary{% endif %}"
+           style="text-decoration:none;">
+           Без опыта
+        </a>
+
+        <a href="?filter=internship"
+           class="badge {% if request.GET.filter == 'internship' %}bg-primary{% else %}bg-secondary{% endif %}"
+           style="text-decoration:none;">
+           Стажировка
+        </a>
+
+        <a href="?filter=remote"
+           class="badge {% if request.GET.filter == 'remote' %}bg-primary{% else %}bg-secondary{% endif %}"
+           style="text-decoration:none;">
+           Удаленка
+        </a>
+    </div>
 
       <!-- Вакансии -->
-      <div class="row g-4">
-        <!-- Тут мы перебиваем все наши вакансии. -->
-        {% for vacancy in vacancies%}
+     {% if vacancies %}
+        {% for vacancy in vacancies %}
         <div class="col-12">
 
           <div class="card p-3">
             <div class="d-flex mb-1">
               <i class="favorite-icon
-    {% if vacancy.id in user_favorites %}bi bi-star-fill text-warning{% else %}bi bi-star{% endif %} me-2"
-    data-id="{{ vacancy.id }}"
-    title="Избранное">
-				</i>
+                         {% if vacancy.id in user_favorites %}bi bi-star-fill text-warning{% else %}bi bi-star{% endif %}
+                         me-2"
+                 data-id="{{ vacancy.id }}"
+                 title="Избранное">
+              </i>
               <i class="bi bi-eye-slash hide-icon"
                  style="cursor: pointer;"
                  data-id="{{ vacancy.id }}"
                  title="Скрыть вакансию"></i>
+
+
             </div>
             <div class="d-flex justify-content-between align-items-center mb-2">
               <h5 class="mb-0">{{ vacancy.title }}</h5>
-              <!-- Тут мы проверяем, есть ли у компании логотип! -->
               {% if vacancy.company.logo %}
               <img src="{{ vacancy.company.logo.url }}" alt="Логотип компании" class="company-logo">
               {% else %}
@@ -97,7 +124,6 @@
 
             </div>
             {% if vacancy.salary %}
-            <!-- Здесь мы используем поле salary_type, но добавляем перед ним «get_», а после — «_display». Это позволяет отображать значения поля, а не его ключ. -->
             <p class="mb-1">{{ vacancy.salary }} ₽ {{ vacancy.get_salary_type_display }}</p>
             {% elif vacancy.salary_from and not vacancy.salary_to %}
             <p class="mb-1">от {{ vacancy.salary_from }} ₽ {{ vacancy.get_salary_type_display }}</p>
@@ -109,8 +135,7 @@
 
             <p class="mb-1">{{ vacancy.company.name }}</p>
             <div class="d-flex align-items-center mb-2">
-              <!-- Здесь мы используем average_rating для отображения средней оценки компании. К сожалению, пока не можем показать общее количество отзывов, так как еще не передали эту информацию через представление. Однако в будущем мы обязательно исправим это. -->
-              <i class="bi bi-star-fill text-warning me-1"></i> {{ vacancy.company.average_rating }} • {{ vacancy.company.count_feedbacks }} отзывов
+              <i class="bi bi-star-fill text-warning me-1"></i> {{ vacancy.company.average_rating }} • {{ vacancy.company_feedback_count }} отзывов
             </div>
             <p class="mb-2">{{ vacancy.get_city_display }}, {{ vacancy.street }}</p>
             <form method="POST" action="/apply">
@@ -120,6 +145,13 @@
 
         </div>
         {% endfor %}
+{% else %}
+        <div class="col-12">
+          <div class="card p-3">
+            <strong>Нет ваканcии!</strong>
+          </div>
+        </div>
+{% endif %}
       </div>
 </section>
 

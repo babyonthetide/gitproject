@@ -1,16 +1,20 @@
 from django.shortcuts import render
+from django.template.context_processors import request
 from django.views.generic import TemplateView
 from companies.models import Vacancy,FavoriteVacancy
 from core.models import SiteSettings
 from communications.models import Invitation,Response
 from homepage_user.mixins import NoCompanyRequiredMixin
 from resumes.models import ResumeView
+from homepage_user.utils import filterd_objects_with_filter_type
 
 class HomePageView(NoCompanyRequiredMixin,TemplateView):
     template_name = 'homepage_user/homepage.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        #Получаем выбранный фильтр
+        filter_type = self.request.GET.get('filter')
         #Получаем настройки сайта, логотип и баннер
         site_settings = SiteSettings.objects.first()
         context['logo'] = site_settings.logo if site_settings.logo else None
@@ -27,6 +31,7 @@ class HomePageView(NoCompanyRequiredMixin,TemplateView):
         context['total_responses'] = total_responses
         context['total_invitation'] = total_invitation
         #Получаем 7 последних вакансий
-        context['vacancies'] = Vacancy.objects.select_related('company','profession').exclude(hidden_by_user__user=self.request.user)[:7]
-        #
+        vacancies = Vacancy.objects.select_related('company','profession').exclude(hidden_by_user__user=self.request.user)
+        filtered_vacancies = filterd_objects_with_filter_type(vacancies,filter_type)[:7]
+        context['vacancies'] = filtered_vacancies
         return context
