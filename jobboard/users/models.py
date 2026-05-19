@@ -13,6 +13,14 @@ class Profile(models.Model):
     phone = models.CharField(max_length=20,unique=True,blank=True,null=True,verbose_name='Телефон')
     date_of_birth = models.DateTimeField(blank=True,null=True,verbose_name='Дата рождения')
     location = models.CharField(max_length=100,blank=True,null=True,verbose_name='Адрес')
+    city = models.CharField(max_length=30, choices=[
+        ("moscow", "Москва"),
+        ("spb", "Санкт-Петербург"),
+        ("kazan", "Казань"),
+        ("novosibirsk", "Новосибирск"),
+        ("yekaterinburg", "Екатеринбург"),
+        ("sochi", "Сочи")
+    ], default='moscow', verbose_name='Город')
     is_verified = models.BooleanField(default=False,verbose_name='Верифицирован')
     created_at = models.DateTimeField(auto_now_add=True,verbose_name='Создан')
     updated_at = models.DateTimeField(auto_now=True,verbose_name='Обновлён')

@@ -7,6 +7,7 @@ from communications.models import Invitation,Response
 from homepage_user.mixins import NoCompanyRequiredMixin
 from resumes.models import ResumeView
 from homepage_user.utils import filterd_objects_with_filter_type
+from users.models import Profile
 
 class HomePageView(NoCompanyRequiredMixin,TemplateView):
     template_name = 'homepage_user/homepage.html'
@@ -19,6 +20,7 @@ class HomePageView(NoCompanyRequiredMixin,TemplateView):
         site_settings = SiteSettings.objects.first()
         context['logo'] = site_settings.logo if site_settings.logo else None
         context['main_banner'] = site_settings.main_banner if site_settings.main_banner else None
+        context['city'] = Profile.objects.get(user=self.request.user).get_city_display()
         #Получаем количество откликов и приглашений
         total_responses = Response.objects.count()
         total_invitation = Invitation.objects.count()
