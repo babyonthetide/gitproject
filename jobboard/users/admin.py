@@ -5,7 +5,7 @@ from .models import Profile
 
 @admin.register(Profile)
 class AdminProfile(admin.ModelAdmin):
-    list_display = ("user", "phone", "location", "is_verified", "created_at")
+    list_display = ("user", "phone", "city", "is_verified", "created_at")
     list_filter = ("is_verified", "created_at")
-    search_fields = ("user__username", "phone", "location")
+    search_fields = ("user__username", "phone", "city")
 

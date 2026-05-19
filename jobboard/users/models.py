@@ -12,7 +12,6 @@ class Profile(models.Model):
     bio = models.TextField(blank=True,null=True,verbose_name='Биография')
     phone = models.CharField(max_length=20,unique=True,blank=True,null=True,verbose_name='Телефон')
     date_of_birth = models.DateTimeField(blank=True,null=True,verbose_name='Дата рождения')
-    location = models.CharField(max_length=100,blank=True,null=True,verbose_name='Адрес')
     city = models.CharField(max_length=30, choices=[
         ("moscow", "Москва"),
         ("spb", "Санкт-Петербург"),

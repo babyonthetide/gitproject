@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'professions',
     'communications',
     'core',
-    'homepage_user'
+    'homepage_user',
+    'detail_vacancy'
 ]
 
 MIDDLEWARE = [
