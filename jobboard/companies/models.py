@@ -108,6 +108,13 @@ class FeedbackCompany(models.Model):
     rating = models.PositiveSmallIntegerField(choices=[(i, str(i)) for i in range(1,6)],verbose_name='Оценка')
     created_at = models.DateTimeField(auto_now_add=True,verbose_name='Создано')
     updated_at = models.DateTimeField(auto_now=True,verbose_name='Обновлено')
+    vacancy = models.ForeignKey(
+        "companies.Vacancy",
+        on_delete=models.CASCADE,
+        related_name="feedbacks",
+        verbose_name="Вакансия",
+        default=1
+    )
 
     class Meta:
         verbose_name = 'Отзыв'

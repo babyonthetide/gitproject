@@ -4,7 +4,7 @@ from django.views.generic import DetailView
 from companies.models import Vacancy, Company, FeedbackCompany
 from core.models import SiteSettings
 from users.models import Profile
-from detail_vacancy.utils import render_stars_html
+from detail_vacancy.utils import render_stars_html,years_declension,split_lines
 
 # Create your views here.
 
@@ -33,4 +33,12 @@ class DetailVacancyView(LoginRequiredMixin,DetailView):
         #Рейтинг и звёзды
         context['rating'] = vacancy.company.average_rating()
         context['stars_rating'] = render_stars_html(rating=context['rating'])
+        #Опыт работы
+        context['experience_required'] = years_declension(
+            vacancy.experience_required,
+            vacancy.experience_from,
+            vacancy.experience_to
+        )
+        context['responsibilities'] = split_lines(vacancy.responsibilities)
+        context['conditions'] = split_lines(vacancy.conditions)
         return context
