@@ -13,6 +13,7 @@ class HomePageView(NoCompanyRequiredMixin,TemplateView):
     template_name = 'homepage_user/homepage.html'
 
     def get_context_data(self, **kwargs):
+
         context = super().get_context_data(**kwargs)
         #Получаем выбранный фильтр
         filter_type = self.request.GET.get('filter')
@@ -33,7 +34,8 @@ class HomePageView(NoCompanyRequiredMixin,TemplateView):
         context['total_responses'] = total_responses
         context['total_invitation'] = total_invitation
         #Получаем 7 последних вакансий
-        vacancies = Vacancy.objects.select_related('company','profession').exclude(hidden_by_user__user=self.request.user)
+        vacancies = Vacancy.objects.visible_for_user(self.request.user)
+        #vacancies = Vacancy.objects.select_related('company','profession').exclude(hidden_by_user__user=self.request.user)
         filtered_vacancies = filterd_objects_with_filter_type(vacancies,filter_type)[:7]
         #Избранные вакнасии
         context['user_favorites'] = FavoriteVacancy.objects.filter(user=self.request.user).values_list('vacancy_id', flat=True)

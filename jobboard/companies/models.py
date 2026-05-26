@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from companies.validators import validate_logo_size,logo_upload_path
 from professions.models import Profession
+from django.db.models import Q
 
 class Company(models.Model):
     owner = models.OneToOneField(User,on_delete=models.CASCADE,related_name='company',verbose_name='Владелец')
@@ -34,9 +35,15 @@ class Company(models.Model):
         feedbacks = self.feedbacks.count()
         return feedbacks
 
+class VacancyQuerySet(models.QuerySet):
+    def visible_for_user(self,user):
+        if not user.is_authenticated:
+            return self
+        return self.exclude(Q(hidden_by_user__user=user)|Q(company__hidden_by_users__user=user)).distinct()
 
 
 class Vacancy(models.Model):
+    objects = VacancyQuerySet.as_manager()
     company = models.ForeignKey(Company,on_delete=models.CASCADE,related_name='vacancies',verbose_name='Компания')
     title = models.CharField(max_length=255,verbose_name='Название вакансии')
     profession = models.ForeignKey(Profession,on_delete=models.CASCADE,verbose_name='Профессия',default=None)
@@ -177,7 +184,7 @@ class HiddenCompany(models.Model):
     constraints = [
         models.UniqueConstraint(
             fields=['user', 'company'],
-            name='unique_hidden_company'
+            name='unique_user_hidden_company'
         )
     ]
 
