@@ -18,6 +18,22 @@
     {% endblock %}
 </head>
 <body>
+{% if messages %}
+  <div class="messages-container position-fixed top-0 start-50 translate-middle-x mt-3 z-3" style="max-width: 400px; width: 100%;">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow rounded-3 mb-2"
+           role="alert">
+        <div class="d-flex justify-content-between align-items-start">
+          <div class="me-2">
+            <strong>{% if message.tags == 'error' %}{% elif message.tags == 'success' %}{% elif message.tags == 'warning' %}{% else %}{% endif %}</strong>
+            <p class="mb-0 mt-1">{{ message }}</p>
+          </div>
+          <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
 
 <!-- Главное меню -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">

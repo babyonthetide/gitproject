@@ -1,12 +1,14 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404,redirect
 from django.template.context_processors import request
 from django.views.generic import DetailView
 from companies.models import Vacancy, Company, FeedbackCompany, FavoriteVacancy
 from core.models import SiteSettings
 from users.models import Profile
 from detail_vacancy.utils import render_stars_html,years_declension,split_lines
-
+from django.contrib import messages
+from companies.models import HiddenVacancy
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 class DetailVacancyView(LoginRequiredMixin,DetailView):
@@ -45,3 +47,11 @@ class DetailVacancyView(LoginRequiredMixin,DetailView):
         #Список избранных вакансий
         context['user_favorites'] = FavoriteVacancy.objects.filter(user=self.request.user).values_list('vacancy_id', flat=True)
         return context
+
+@login_required
+def hide_vacancy(request,pk):
+    if request.method =='POST':
+        vacancy = get_object_or_404(Vacancy,id=pk)
+        HiddenVacancy.objects.get_or_create(user=request.user,vacancy=vacancy)
+        messages.success(request,"Вакансия скрыта")
+    return redirect("homepage_user:homepage")
