@@ -49,7 +49,15 @@
           <button class="btn btn-light favorite-btn"
         data-id="{{ vacancy.id }}"
         title="Добавить в избранное">
-    <i class="{% if vacancy.id in user_favorites %}bi bi-heart-fill text-danger{% else %}bi bi-heart{% endif %}"></i>
+    <i class="favorite-icon
+
+{% if vacancy.id in user_favorites %}bi bi-star-fill text-warning{% else %}bi bi-star{% endif %}"
+
+data-id="{{ vacancy.id }}"
+
+title="Избранное">
+
+</i>
 </button>
           <!-- Контейнер для кнопки три точки + меню -->
           <div class="position-relative">
