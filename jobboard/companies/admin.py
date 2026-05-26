@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Company, Vacancy, FeedbackCompany, FavoriteVacancy,HiddenVacancy
+from .models import Company, Vacancy, FeedbackCompany, FavoriteVacancy,HiddenVacancy,HiddenCompany
 # Register your models here.
 
 @admin.register(Company)
@@ -40,3 +40,11 @@ class HiddenVacancyAdmin(admin.ModelAdmin):
     list_display = ('id','user','vacancy','created_at')
     search_fields = ('user__username','vacancy__title')
     list_filter = ('created_at',)
+
+
+@admin.register(HiddenCompany)
+class HiddenCompanyAdmin(admin.ModelAdmin):
+    list_display = ('id','user','company','created_at')
+    list_filter =('created_at',)
+    search_fields = ('user__username','company__name')
+    ordering = ['-created_at']

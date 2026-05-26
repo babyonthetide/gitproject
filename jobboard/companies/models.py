@@ -163,3 +163,23 @@ class HiddenVacancy(models.Model):
 
     def __str__(self):
         return f"{self.user} скрыл {self.vacancy}"
+
+
+class HiddenCompany(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='hidden_companies',verbose_name='Пользователь')
+    company = models.ForeignKey(Company,on_delete=models.CASCADE,related_name='hidden_by_users',verbose_name='Компания')
+    created_at = models.DateTimeField(auto_now_add=True,verbose_name='Скрыто')
+
+    class Meta:
+        verbose_name='Скрытая компания'
+        verbose_name_plural='Скрытые компании'
+
+    constraints = [
+        models.UniqueConstraint(
+            fields=['user', 'company'],
+            name='unique_hidden_company'
+        )
+    ]
+
+    def __str__(self):
+        return f"{self.user} скрыл компанию {self.company}"
