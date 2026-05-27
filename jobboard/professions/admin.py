@@ -1,6 +1,5 @@
 from django.contrib import admin
-from professions.models import Profession,CategoryProfession
-# Register your models here.
+from professions.models import Profession, CategoryProfession
 
 
 class InlineProfession(admin.TabularInline):
@@ -10,13 +9,14 @@ class InlineProfession(admin.TabularInline):
 
 @admin.register(CategoryProfession)
 class CategoryProfessionAdmin(admin.ModelAdmin):
-    list_display = ('id','name')
-    list_filter = ('name',)
-    search_fields = ('name',)
+    list_display = ("id", "name")
+    list_filter = ("name",)
+    search_fields = ("name",)
     inlines = [InlineProfession]
+
 
 @admin.register(Profession)
 class ProfessionAdmin(admin.ModelAdmin):
-    list_display = ('category','name','description')
-    list_filter = ('category',)
-    search_fields = ('name','category__name')
+    list_display = ("category", "name", "description")
+    list_filter = ("category",)
+    search_fields = ("name", "category__name")

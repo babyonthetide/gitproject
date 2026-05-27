@@ -1,57 +1,72 @@
 from django.contrib import admin
-from .models import Company, Vacancy, FeedbackCompany, FavoriteVacancy,HiddenVacancy,HiddenCompany,Complaint
-# Register your models here.
+from .models import (
+    Company,
+    Vacancy,
+    FeedbackCompany,
+    FavoriteVacancy,
+    HiddenVacancy,
+    HiddenCompany,
+    Complaint,
+)
+
 
 @admin.register(Company)
 class CompanyAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'owner', 'website', 'created_at')
-    list_filter = ('created_at',)
-    search_fields = ('name','owner__username')
+    list_display = ("id", "name", "owner", "website", "created_at")
+    list_filter = ("created_at",)
+    search_fields = ("name", "owner__username")
 
-
-    def average_rating_display(self,object):
+    def average_rating_display(self, object):
         return object.average_rating()
 
-    average_rating_display.short_description = 'Средняя оценка'
+    average_rating_display.short_description = "Средняя оценка"
+
 
 @admin.register(Vacancy)
 class VacancyAdmin(admin.ModelAdmin):
-    list_display = ('id','title','company','employment_type','schedule','created_at')
-    list_filter = ('employment_type','schedule','created_at')
-    search_fields = ('title','company__name')
+    list_display = (
+        "id",
+        "title",
+        "company",
+        "employment_type",
+        "schedule",
+        "created_at",
+    )
+    list_filter = ("employment_type", "schedule", "created_at")
+    search_fields = ("title", "company__name")
 
 
 @admin.register(FeedbackCompany)
 class FeedBackCompanyAdmin(admin.ModelAdmin):
-    list_display = ('id','company','comment','rating','created_at')
-    list_filter = ('rating','created_at')
-    search_fields = ('company__name','comment')
+    list_display = ("id", "company", "comment", "rating", "created_at")
+    list_filter = ("rating", "created_at")
+    search_fields = ("company__name", "comment")
 
 
 @admin.register(FavoriteVacancy)
 class FavoriteVacancyAdmin(admin.ModelAdmin):
-    list_display = ('id','user','vacancy','created_at')
-    search_fields = ('user__username','vacancy__title')
-    list_filter = ('created_at',)
+    list_display = ("id", "user", "vacancy", "created_at")
+    search_fields = ("user__username", "vacancy__title")
+    list_filter = ("created_at",)
 
 
 @admin.register(HiddenVacancy)
 class HiddenVacancyAdmin(admin.ModelAdmin):
-    list_display = ('id','user','vacancy','created_at')
-    search_fields = ('user__username','vacancy__title')
-    list_filter = ('created_at',)
+    list_display = ("id", "user", "vacancy", "created_at")
+    search_fields = ("user__username", "vacancy__title")
+    list_filter = ("created_at",)
 
 
 @admin.register(HiddenCompany)
 class HiddenCompanyAdmin(admin.ModelAdmin):
-    list_display = ('id','user','company','created_at')
-    list_filter =('created_at',)
-    search_fields = ('user__username','company__name')
-    ordering = ['-created_at']
+    list_display = ("id", "user", "company", "created_at")
+    list_filter = ("created_at",)
+    search_fields = ("user__username", "company__name")
+    ordering = ["-created_at"]
 
 
 @admin.register(Complaint)
 class ComplaintAdmin(admin.ModelAdmin):
-    list_display = ('user','vacancy','created_at')
-    list_filter = ('created_at','user')
-    search_fields = ('reason',)
+    list_display = ("user", "vacancy", "created_at")
+    list_filter = ("created_at", "user")
+    search_fields = ("reason",)

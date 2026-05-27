@@ -4,7 +4,4 @@ from .models import SiteSettings
 
 @admin.register(SiteSettings)
 class SiteSettingsAdmin(admin.ModelAdmin):
-    list_display = ('id','logo','main_banner')
-
-
-
+    list_display = ("id", "logo", "main_banner")
