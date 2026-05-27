@@ -1,6 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404,redirect
-from django.template.context_processors import request
 from django.views.generic import DetailView
 from companies.models import Vacancy, Company, FeedbackCompany, FavoriteVacancy, HiddenCompany
 from core.models import SiteSettings

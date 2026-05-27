@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Редактирование резюме — {{ resume.first_name }} {{ resume.last_name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h3 class="mb-0">
+            <i class="bi bi-pencil-square me-2"></i>
+            Редактирование резюме
+          </h3>
+        </div>
+
+        <div class="card-body p-4">
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              </div>
+            {% endfor %}
+          {% endif %}
+
+          <form method="post" class="needs-validation" novalidate>
+            {% csrf_token %}
+
+            <!-- Личные данные -->
+            <div class="mb-4">
+              <h4 class="border-bottom pb-2 mb-3 text-primary">
+                <i class="bi bi-person-fill me-2"></i>Личные данные
+              </h4>
+
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="{{ form.first_name.id_for_label }}" class="form-label required">Имя</label>
+                  {{ form.first_name }}
+                  {% if form.first_name.errors %}
+                    <div class="invalid-feedback d-block">{{ form.first_name.errors|first }}</div>
+                  {% endif %}
+                </div>
+
+                <div class="col-md-6">
+                  <label for="{{ form.last_name.id_for_label }}" class="form-label required">Фамилия</label>
+                  {{ form.last_name }}
+                  {% if form.last_name.errors %}
+                    <div class="invalid-feedback d-block">{{ form.last_name.errors|first }}</div>
+                  {% endif %}
+                </div>
+
+                <div class="col-md-6">
+                  <label for="{{ form.middle_name.id_for_label }}" class="form-label">Отчество</label>
+                  {{ form.middle_name }}
+                  {% if form.middle_name.errors %}
+                    <div class="invalid-feedback d-block">{{ form.middle_name.errors|first }}</div>
+                  {% endif %}
+                </div>
+
+                <div class="col-md-6">
+                  <label for="{{ form.gender.id_for_label }}" class="form-label required">Пол</label>
+                  {{ form.gender }}
+                  {% if form.gender.errors %}
+                    <div class="invalid-feedback d-block">{{ form.gender.errors|first }}</div>
+                  {% endif %}
+                </div>
+
+                <div class="col-md-6">
+                  <label for="{{ form.date_of_birth.id_for_label }}" class="form-label required">Дата рождения</label>
+                  {{ form.date_of_birth }}
+                  {% if form.date_of_birth.errors %}
+                    <div class="invalid-feedback d-block">{{ form.date_of_birth.errors|first }}</div>
+                  {% endif %}
+                </div>
+
+                <div class="col-md-6">
+                  <label for="{{ form.phone.id_for_label }}" class="form-label required">Телефон</label>
+                  {{ form.phone }}
+                  {% if form.phone.errors %}
+                    <div class="invalid-feedback d-block">{{ form.phone.errors|first }}</div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+
+            <!-- Профессиональная информация -->
+            <div class="mb-4">
+              <h4 class="border-bottom pb-2 mb-3 text-primary">
+                <i class="bi bi-briefcase me-2"></i>Профессиональная информация
+              </h4>
+
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="{{ form.profession.id_for_label }}" class="form-label required">Профессия</label>
+                  {{ form.profession }}
+                  {% if form.profession.errors %}
+                    <div class="invalid-feedback d-block">{{ form.profession.errors|first }}</div>
+                  {% endif %}
+                </div>
+
+                <div class="col-md-6">
+                  <label for="{{ form.desired_salary.id_for_label }}" class="form-label">Желаемая зарплата (руб.)</label>
+                  {{ form.desired_salary }}
+                  {% if form.desired_salary.errors %}
+                    <div class="invalid-feedback d-block">{{ form.desired_salary.errors|first }}</div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+
+            <!-- Кнопки управления -->
+            <div class="d-flex gap-3 pt-3 border-top">
+              <button type="submit" class="btn btn-primary btn-lg px-4">
+                <i class="bi bi-save me-2"></i>Сохранить изменения
+              </button>
+
+              <a href="{% url 'resumes:resume_profile_view' %}" class="btn btn-outline-secondary btn-lg px-4">
+                <i class="bi bi-x-circle me-2"></i>Отмена
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Активация валидации Bootstrap
+(function () {
+  'use strict'
+  var forms = document.querySelectorAll('.needs-validation')
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>
+{% endblock %}
