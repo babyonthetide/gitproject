@@ -1,7 +1,5 @@
-from django.shortcuts import render
-from django.template.context_processors import request
 from django.views.generic import TemplateView
-from companies.models import Vacancy,FavoriteVacancy
+from companies.models import Vacancy, FavoriteVacancy
 from core.models import SiteSettings
 from communications.models import Invitation,Response
 from homepage_user.mixins import NoCompanyRequiredMixin
@@ -41,3 +39,5 @@ class HomePageView(NoCompanyRequiredMixin,TemplateView):
         context['user_favorites'] = FavoriteVacancy.objects.filter(user=self.request.user).values_list('vacancy_id', flat=True)
         context['vacancies'] = filtered_vacancies
         return context
+
+
