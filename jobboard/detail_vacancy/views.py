@@ -9,6 +9,7 @@ from detail_vacancy.utils import render_stars_html,years_declension,split_lines
 from django.contrib import messages
 from companies.models import HiddenVacancy
 from django.contrib.auth.decorators import login_required
+from companies.forms import ComplaintForm
 # Create your views here.
 
 class DetailVacancyView(LoginRequiredMixin,DetailView):
@@ -67,3 +68,22 @@ def hide_company(request,pk):
         else:
             messages.success(request,'Компания уже скрыта.')
     return redirect("homepage_user:homepage")
+
+
+@login_required
+def submit_complaint(request,pk):
+    vacancy = get_object_or_404(Vacancy,id=pk)
+    if request.method == 'POST':
+        form = ComplaintForm(request.POST)
+        if form.is_valid():
+            complaint = form.save(commit=False)
+            complaint.user = request.user
+            complaint.vacancy = vacancy
+            complaint.save()
+            messages.success(request,'Ваша жалоба успешно отправлена')
+            return redirect("detail_vacancy:detail_vacancy",pk=vacancy.id)
+    else:
+        form = ComplaintForm()
+    context = {'form':form,
+               'vacancy':vacancy}
+    return render(request,'detail_vacancy/complaint.html',context)

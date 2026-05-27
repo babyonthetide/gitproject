@@ -81,9 +81,12 @@ title="Избранное">
 </form>
                 <i class="bi bi-building icon-strikethrough me-2"></i> Скрыть вакансии компании
               </button>
-              <button class="dropdown-item" id="report-vacancy">
-                <i class="bi bi-flag me-2"></i> Пожаловаться на вакансию
-              </button>
+              <form method="get" action="{% url 'detail_vacancy:submit_complaint' vacancy.id %}">
+    {% csrf_token %}
+    <button type="submit" class="dropdown-item">
+        <i class="bi bi-flag me-2"></i> Пожаловаться на вакансию
+    </button>
+</form>
             </div>
           </div>
 
