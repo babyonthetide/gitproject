@@ -5,189 +5,201 @@
 
 {% block style %}
 <style>
-    .profile-card {
+    .profile-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba1 100%);
+        color: white;
+        border-radius: 1rem;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    .verified-badge {
+        background-color: #28a745;
+        color: white;
+        font-size: 0.8rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-weight: 500;
+    }
+    .info-card {
         border: none;
         box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        transition: transform 0.2s;
     }
-    .resume-section {
-        margin-bottom: 2rem;
+    .info-card:hover {
+        transform: translateY(-2px);
     }
     .section-title {
         font-weight: 600;
         color: #343a40;
         border-bottom: 1px solid #dee2e6;
         padding-bottom: 0.5rem;
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+    }
+    .section-icon {
+        margin-right: 0.5rem;
+        color: #667eea;
     }
     .info-item {
-        margin-bottom: 0.75rem;
+        display: flex;
+        justify-content: space-between;
+        padding: 0.75rem 0;
+        border-bottom: 1px dashed #e9ecef;
     }
     .info-label {
         font-weight: 500;
         color: #495057;
+        min-width: 180px;
     }
-    .verified-badge {
-        background-color: #28a745;
-        color: white;
-        font-size: 0.8rem;
-        padding: 0.25rem 0.5rem;
-        border-radius: 10px;
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-top: 1.5rem;
+    }
+    .btn-action {
+        padding: 0.5rem 1.5rem;
+        font-weight: 500;
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <div class="row">
-        <!-- Левая колонка: данные профиля -->
-        <div class="col-lg-4">
-            <div class="card profile-card mb-4">
-                <div class="card-body text-center">
-                    <img src="{{ profile.avatar.url }}"
-                         alt="Аватар {{ resume.first_name }} {{ resume.last_name }}"
-                         class="rounded-circle mb-3"
-                         style="width: 150px; height: 150px; object-fit: cover;">
-                    
-                    <h4>{{ resume.first_name }} {{ resume.last_name }}</h4>
-                    {% if resume.middle_name %}
-                        <h6 class="text-muted">{{ resume.middle_name }}</h6>
-                    {% endif %}
-                    
-                    {% if profile.is_verified %}
-                        <span class="verified-badge">
-                            <i class="bi bi-check-circle-fill"></i> Верифицирован
-                        </span>
-                    {% endif %}
-                    
-                    <div class="mt-3">
-                        {% if profile.bio %}
-                            <p class="text-muted">{{ profile.bio|linebreaks }}</p>
-                        {% endif %}
-                    </div>
-                </div>
+<div class="container mt-5">
+    <!-- Заголовок с профилем пользователя -->
+    <div class="profile-header">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <img src="{{ profile.avatar.url }}"
+                     alt="Аватар {{ resume.first_name }} {{ resume.last_name }}"
+                     class="rounded-circle profile-avatar">
             </div>
+            <div class="col">
+			{% if resume.middle_name %}
+                <h1 class="mb-2">{{ resume.first_name }} {{ resume.middle_name }} {{ resume.last_name }}</h1>
+			{% else %}	
+                    <h1 class="mb-2">{{ resume.first_name }} {{ resume.middle_name }} {{ resume.last_name }}</h1>
+                {% endif %}
+                {% if profile.is_verified %}
+                    <span class="verified-badge">
+                        <i class="bi bi-check-circle-fill"></i> Верифицирован
+            </span>
+                {% endif %}
+            </div>
+            <div class="col-auto">
+                <!-- Кнопка редактирования пользовательской информации -->
+                <a href="{% url 'resumes:resume_edit' %}" class="btn btn-light btn-action">
+        <i class="bi bi-person-gear me-2"></i>Редактировать данные профиля
+    </a>
+            </div>
+        </div>
 
-            <!-- Контактная информация -->
-            <div class="card profile-card">
+        {% if profile.bio %}
+            <div class="mt-3">
+                <p class="lead mb-0">{{ profile.bio|linebreaks }}</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Основная информация -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card info-card mb-4">
                 <div class="card-body">
-                    <h5 class="section-title">Контактная информация</h5>
-                    
+                    <h4 class="section-title">
+                        <i class="bi bi-info-circle section-icon"></i>Основная информация
+            </h4>
+
+            <div class="row g-3">
+                <div class="col-md-6">
                     <div class="info-item">
                         <span class="info-label">Телефон:</span>
                         <div>{{ profile.phone|default:"Не указан" }}</div>
-                    </div>
-            
-                    <div class="info-item">
-                        <span class="info-label">Город:</span>
-                        <div>
-                            {% if profile.city == "moscow" %}Москва
-                            {% elif profile.city == "spb" %}Санкт-Петербург
-                            {% elif profile.city == "kazan" %}Казань
-                            {% elif profile.city == "novosibirsk" %}Новосибирск
-                            {% elif profile.city == "yekaterinburg" %}Екатеринбург
-                            {% elif profile.city == "sochi" %}Сочи
-                            {% else %}Не указан{% endif %}
-                        </div>
-                    </div>
-            
+            </div>
+            <div class="info-item">
+                <span class="info-label">Город:</span>
+                <div>
+                    {% if profile.city == "moscow" %}Москва
+            {% elif profile.city == "spb" %}Санкт-Петербург
+            {% elif profile.city == "kazan" %}Казань
+            {% elif profile.city == "novosibirsk" %}Новосибирск
+            {% elif profile.city == "yekaterinburg" %}Екатеринбург
+            {% elif profile.city == "sochi" %}Сочи
+            {% else %}Не указан{% endif %}
+                </div>
+            </div>
             <div class="info-item">
                 <span class="info-label">Дата рождения:</span>
                 <div>
-                    {% if profile.date_of_birth %}
+            {% if profile.date_of_birth %}
                 {{ profile.date_of_birth|date:"d.m.Y" }}
             {% else %}
                 Не указана
             {% endif %}
                 </div>
             </div>
-            
-            <div class="info-item">
-                <span class="info-label">Зарегистрирован:</span>
-                <div>{{ profile.created_at|date:"d.m.Y H:i" }}</div>
-            </div>
         </div>
-    </div>
-</div>
 
-<!-- Правая колонка: резюме -->
-<div class="col-lg-8">
-    <div class="card resume-card">
-        <div class="card-body">
-            <h3 class="section-title">{{ resume.profession }}</h3>
-            
-            <div class="resume-section">
-                <h5 class="section-title">Основная информация</h5>
-                
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="info-item">
-                            <span class="info-label">Пол:</span>
-                            <div>
-                                {% if resume.gender == 'male' %}Мужской
-                {% elif resume.gender == 'female' %}Женский
-                {% else %}Не указан{% endif %}
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-md-6">
-        <div class="info-item">
-            <span class="info-label">Дата рождения:</span>
-            <div>{{ resume.date_of_birth|date:"d.m.Y" }}</div>
-        </div>
-    </div>
-    
-    <div class="col-md-6">
-        <div class="info-item">
-            <span class="info-label">Телефон:</span>
-            <div>{{ resume.phone }}</div>
-        </div>
-    </div>
-    
-    <div class="col-md-6">
-        <div class="info-item">
-            <span class="info-label">Желаемая зарплата:</span>
-            <div>
-                {% if resume.desired_salary %}
-                    {{ resume.desired_salary }} руб.
-                {% else %}
-                    Не указана
-                {% endif %}
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-
-<div class="resume-section">
-    <h5 class="section-title">Информация о резюме</h5>
-    
-    <div class="row">
         <div class="col-md-6">
             <div class="info-item">
-                <span class="info-label">Создано:</span>
-                <div>{{ resume.created_at|date:"d.m.Y H:i" }}</div>
+                <span class="info-label">Пол:</span>
+                <div>
+            {% if resume.gender == 'male' %}Мужской
+            {% elif resume.gender == 'female' %}Женский
+            {% else %}Не указан{% endif %}
+                </div>
             </div>
-        </div>
-        
-        <div class="col-md-6">
             <div class="info-item">
-                <span class="info-label">Обновлено:</span>
-                <div>{{ resume.updated_at|date:"d.m.Y H:i" }}</div>
+                <span class="info-label">Желаемая зарплата:</span>
+                <div>
+            {% if resume.desired_salary %}
+                {{ resume.desired_salary }} руб.
+            {% else %}
+                Не указана
+            {% endif %}
+                </div>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Профессия:</span>
+                <div>{{ resume.profession }}</div>
             </div>
         </div>
     </div>
 </div>
+</div>
 
-<!-- Кнопки действий -->
-<div class="mt-4">
-    <a href="{% url 'resumes:resume_edit' %}" class="btn btn-outline-primary me-2">
-        <i class="bi bi-pencil"></i> Редактировать данные
-    </a>
+<!-- Резюме -->
+<div class="card info-card">
+    <div class="card-body">
+        <h4 class="section-title">
+            <i class="bi bi-file-earmark-text section-icon"></i>Резюме
+        </h4>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="info-item">
+                    <span class="info-label">Создано:</span>
+            <div>{{ resume.created_at|date:"d.m.Y H:i" }}</div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="info-item">
+            <span class="info-label">Обновлено:</span>
+            <div>{{ resume.updated_at|date:"d.m.Y H:i" }}</div>
+        </div>
+    </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
+
+ 
+		
 {% endblock %}
