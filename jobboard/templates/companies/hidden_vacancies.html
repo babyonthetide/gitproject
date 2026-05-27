@@ -78,6 +78,7 @@
                     <div class="col">
                 <h3 class="vacancy-title">{{ vacancy.vacancy.title }}</h3>
                 <p class="vacancy-company">{{ vacancy.vacancy.company.name }}</p>
+				<p class="vacancy-company">{{ vacancy.vacancy.description }}</p>
                 <p class="vacancy-location">
                     <i class="bi bi-geo-alt me-1"></i>
             {{ vacancy.vacancy.city|default:"Не указан" }}
@@ -89,18 +90,7 @@
         </p>
         {% endif %}
     </div>
-    <div class="col-auto">
-        <div class="action-buttons">
-            <button class="btn btn-outline-primary btn-sm"
-                    data-vacancy-id="{{ vacancy.vacancy.id }}">
-                <i class="bi bi-eye me-1"></i>Посмотреть
-            </button>
-            <button class="btn btn-show btn-sm"
-            data-vacancy-id="{{ vacancy.vacancy.id }}">
-                <i class="bi bi-eye-slash me-1"></i>Показать
-            </button>
-        </div>
-    </div>
+ 
 </div>
 <div class="mt-2 text-muted small">
     Скрыта: {{ vacancy.created_at|date:"d.m.Y H:i" }}
