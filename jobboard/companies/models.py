@@ -190,3 +190,18 @@ class HiddenCompany(models.Model):
 
     def __str__(self):
         return f"{self.user} скрыл компанию {self.company}"
+
+
+class Complaint(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='complaints',verbose_name='Пользователь')
+    vacancy = models.ForeignKey(Vacancy,on_delete=models.CASCADE,related_name='complaints',verbose_name='Вакансия')
+    reason = models.TextField(help_text='Опишите причину жалобы',verbose_name='Причина')
+    created_at = models.DateTimeField(auto_now_add=True,verbose_name='Создана')
+
+    class Meta:
+        verbose_name='Жалоба'
+        verbose_name_plural='Жалобы'
+        ordering=['-created_at']
+
+    def __str__(self):
+        return f"Жалоба от {self.user} на вакансию {self.vacancy}"
