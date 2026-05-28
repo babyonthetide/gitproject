@@ -9,4 +9,5 @@ urlpatterns = [
     path("vacancy/", include("companies.urls", namespace="companies")),
     path("detail/", include("detail_vacancy.urls", namespace="detail_vacancy")),
     path("resume/", include("resumes.urls", namespace="resumes")),
+    path("communications/", include("communications.urls", namespace="communications")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

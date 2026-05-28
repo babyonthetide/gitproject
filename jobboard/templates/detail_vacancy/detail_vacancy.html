@@ -44,7 +44,12 @@
         </ul>
 
         <div class="d-flex gap-3 mb-3">
-          <button class="btn btn-primary btn-apply">Откликнуться</button>
+         <form method="post" action="{% url 'communications:send_response' vacancy.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary btn-apply">
+         Откликнуться
+    </button>
+</form>
           <button class="btn btn-outline-primary btn-apply">Связаться</button>
           <button class="btn btn-light favorite-btn"
         data-id="{{ vacancy.id }}"
@@ -79,8 +84,6 @@ title="Избранное">
       <i class="bi bi-building icon-strikethrough me-2"></i> Скрыть вакансии компании
   </button>
 </form>
-                <i class="bi bi-building icon-strikethrough me-2"></i> Скрыть вакансии компании
-              </button>
               <form method="get" action="{% url 'detail_vacancy:submit_complaint' vacancy.id %}">
     {% csrf_token %}
     <button type="submit" class="dropdown-item">

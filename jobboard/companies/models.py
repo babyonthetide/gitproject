@@ -65,21 +65,21 @@ class Vacancy(models.Model):
     description = models.TextField(verbose_name="Описание")
     salary = models.DecimalField(
         max_digits=10,
-        decimal_places=2,
+        decimal_places=0,
         blank=True,
         null=True,
         verbose_name="Заработная плата",
     )
     salary_from = models.DecimalField(
         max_digits=10,
-        decimal_places=2,
+        decimal_places=0,
         blank=True,
         null=True,
         verbose_name="Минимальная заработная плата",
     )
     salary_to = models.DecimalField(
         max_digits=10,
-        decimal_places=2,
+        decimal_places=0,
         blank=True,
         null=True,
         verbose_name="Максимальная заработная плата",

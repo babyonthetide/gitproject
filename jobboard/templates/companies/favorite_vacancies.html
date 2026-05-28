@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Скрытые вакансии{% endblock %}
+
+{% block style %}
+<style>
+    .favorite-vacancies-page {
+        padding: 2rem 0;
+    }
+    .vacancy-card {
+        border: 1px solid #e9ecef;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        transition: all 0.2s;
+    }
+    .vacancy-card:hover {
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        border-color: #667eea;
+    }
+    .vacancy-title {
+        font-weight: 600;
+        color: #343a40;
+        font-size: 1.25rem;
+    }
+    .vacancy-company {
+        color: #6c757d;
+        font-weight: 500;
+    }
+    .vacancy-location {
+        color: #868e96;
+        font-size: 0.9rem;
+    }
+    .vacancy-salary {
+        font-weight: 600;
+        color: #28a745;
+    }
+    .action-buttons {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-end;
+        margin-top: 1rem;
+    }
+    .btn-show {
+        background-color: #28a745;
+        color: white;
+    }
+    .empty-state {
+        text-align: center;
+        padding: 3rem 1rem;
+        color: #6c757d;
+    }
+    .empty-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.5;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container favorite-vacancies-page">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="mb-0">Избранные вакансии</h1>
+                <span class="badge bg-primary rounded-pill px-3 py-2">
+                    {{ favorite_vacancies.count }} вакансия(ий)
+        </span>
+            </div>
+
+            {% if has_favorite %}
+                <!-- Список скрытых вакансий -->
+                {% for vacancy in favorite_vacancies %}
+                    <div class="vacancy-card">
+                <div class="row align-items-start">
+                    <div class="col">
+                <h3 class="vacancy-title"><a href="{% url 'detail_vacancy:detail_vacancy' vacancy.vacancy_id %}" class="text-decoration-none text-dark">{{ vacancy.vacancy.title }}</a></h3>
+                <p class="vacancy-company">{{ vacancy.vacancy.company.name }}</p>
+				<p class="vacancy-company">{{ vacancy.vacancy.description }}</p>
+                <p class="vacancy-location">
+                    <i class="bi bi-geo-alt me-1"></i>
+            {{ vacancy.vacancy.city|default:"Не указан" }}
+        </p>
+        {% if vacancy.vacancy.salary %}
+            <p class="vacancy-salary">
+                <i class="bi bi-currency-ruble me-1"></i>
+            {{ vacancy.vacancy.salary }} руб.
+        </p>
+        {% endif %}
+    </div>
+ 
+</div>
+<div class="mt-2 text-muted small">
+    Скрыта: {{ vacancy.created_at|date:"d.m.Y H:i" }}
+</div>
+</div>
+{% endfor %}
+{% else %}
+    <!-- Состояние, когда вакансий нет -->
+    <div class="empty-state">
+        <i class="bi bi-file-earmark-minus empty-icon"></i>
+        <h4>У вас нет избранных вакансий</h4>
+        <p>Вы пока не добавляли в избранное ни одной вакансии.</p>
+        <a href="{% url 'homepage_user:homepage' %}" class="btn btn-primary mt-3">
+            <i class="bi bi-search me-2"></i>Найти вакансии
+        </a>
+    </div>
+{% endif %}
+</div>
+</div>
+</div>
+{% endblock %}

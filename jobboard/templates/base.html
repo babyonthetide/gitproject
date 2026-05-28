@@ -67,12 +67,7 @@
       <ul class="navbar-nav align-items-lg-center">
         <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-search"></i> Поиск</a></li>
         <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-geo-alt"></i> {{ city }}</a></li>
-        <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-star"></i> Избранные</a></li>
-        <li class="nav-item me-2">
-          <a class="btn btn-primary text-white btn-create" href="#">
-            <i class="bi bi-file-earmark-person"></i> Создать резюме
-          </a>
-        </li>
+        <li class="nav-item"><a href="{% url 'companies:favorite_vacancy_list' %}" class="text-decoration-none text-dark"><i class="bi bi-star"></i> Избранные</a></li>
 
         <!-- Бургер-иконка для бокового меню -->
         <li class="nav-item">

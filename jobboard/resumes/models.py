@@ -26,7 +26,7 @@ class Resume(models.Model):
     date_of_birth = models.DateField(verbose_name="Дата рождения")
     desired_salary = models.DecimalField(
         max_digits=10,
-        decimal_places=2,
+        decimal_places=0,
         blank=True,
         null=True,
         verbose_name="Желаемая зарплата",
