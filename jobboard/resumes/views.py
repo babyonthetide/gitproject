@@ -11,6 +11,15 @@ from django.contrib import messages
 class ResumeProfileView(NoCompanyRequiredMixin, TemplateView):
     template_name = "resumes/profile_resume.html"
 
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        try:
+            resume = Resume.objects.get(user=user)
+            profile = Profile.objects.get(user=user)
+        except (Resume.DoesNotExist, Profile.DoesNotExist):
+            return redirect("resumes:resume_edit")
+        return super().get(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
@@ -24,7 +33,10 @@ class ResumeProfileView(NoCompanyRequiredMixin, TemplateView):
 @login_required
 def edit_resume(request):
     user = request.user
-    resume = get_object_or_404(Resume, user=user)
+    try:
+        resume = Resume.objects.get(user=user)
+    except Resume.DoesNotExist:
+        resume = Resume(user=user)
     if request.method == "POST":
         form = ResumeForm(request.POST, instance=resume)
         if form.is_valid():
