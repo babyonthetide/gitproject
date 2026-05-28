@@ -76,7 +76,7 @@
                     <div class="vacancy-card">
                 <div class="row align-items-start">
                     <div class="col">
-                <h3 class="vacancy-title">{{ vacancy.vacancy.title }}</h3>
+                <h3 class="vacancy-title"><a href="{% url 'detail_vacancy:detail_vacancy' vacancy.vacancy_id %}" class="text-decoration-none text-dark">{{ vacancy.vacancy.title }}</a></h3>
                 <p class="vacancy-company">{{ vacancy.vacancy.company.name }}</p>
 				<p class="vacancy-company">{{ vacancy.vacancy.description }}</p>
                 <p class="vacancy-location">
