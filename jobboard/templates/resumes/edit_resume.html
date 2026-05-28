@@ -108,6 +108,37 @@
                   {% endif %}
                 </div>
               </div>
+			  <!-- Навыки и о себе -->
+<div class="mb-5">
+  <h4 class="border-bottom pb-3 mb-4 text-primary d-flex align-items-center">
+    <i class="bi bi-tools me-2 fs-4"></i>Навыки и о себе
+  </h4>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex justify-content-center">
+        <div style="width: 100%; max-width: 600px;">
+          <div class="form-floating">
+            <textarea
+              class="form-control {% if form.skills.errors %}is-invalid{% endif %}"
+              id="{{ form.skills.id_for_label }}"
+              name="{{ form.skills.html_name }}"
+              placeholder="Опишите ваши профессиональные навыки и дополнительную информацию о себе"
+              style="height: 150px;"
+            >{{ form.skills.value|default:'' }}</textarea>
+            <label for="{{ form.skills.id_for_label }}">Навыки и о себе</label>
+            {% if form.skills.errors %}
+              <div class="invalid-feedback">{{ form.skills.errors|first }}</div>
+            {% endif %}
+          </div>
+          <small class="text-muted mt-2">
+            Перечислите ключевые навыки, достижения и другую релевантную информацию (500–1000 символов)
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
             </div>
 
             <!-- Кнопки управления -->

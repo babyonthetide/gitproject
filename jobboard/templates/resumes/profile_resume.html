@@ -88,7 +88,7 @@
 			{% if resume.middle_name %}
                 <h1 class="mb-2">{{ resume.first_name }} {{ resume.middle_name }} {{ resume.last_name }}</h1>
 			{% else %}	
-                    <h1 class="mb-2">{{ resume.first_name }} {{ resume.middle_name }} {{ resume.last_name }}</h1>
+                    <h1 class="mb-2">{{ resume.first_name }} {{ resume.last_name }}</h1>
                 {% endif %}
                 {% if profile.is_verified %}
                     <span class="verified-badge">
@@ -185,20 +185,43 @@
             <i class="bi bi-file-earmark-text section-icon"></i>Резюме
         </h4>
 
+        <!-- Новый блок: Навыки и о себе -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="p-3 border rounded" style="background-color: #f8f9fa; border-color: #dee2e6;">
+            <h5 class="text-center text-dark mb-2">Навыки и о себе</h5>
+            <div class="text-start">
+                {% if resume.skills %}
+                    <p class="mb-0" style="font-weight: 500; color: #343a40;">
+                        {{ resume.skills }}
+                    </p>
+                {% else %}
+                    <p class="mb-0 text-muted"><em>Информация не указана</em></p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
         <div class="row">
             <div class="col-md-6">
                 <div class="info-item">
                     <span class="info-label">Создано:</span>
-            <div>{{ resume.created_at|date:"d.m.Y H:i" }}</div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="info-item">
-            <span class="info-label">Обновлено:</span>
-            <div>{{ resume.updated_at|date:"d.m.Y H:i" }}</div>
+                    <div>{{ resume.created_at|date:"d.m.Y H:i" }}</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="info-item">
+                    <span class="info-label">Обновлено:</span>
+                    <div>{{ resume.updated_at|date:"d.m.Y H:i" }}</div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
 
  
 		

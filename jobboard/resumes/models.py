@@ -30,7 +30,13 @@ class Resume(models.Model):
         blank=True,
         null=True,
         verbose_name="Желаемая зарплата",
-    )  # Желаемая зарплата
+    )
+    skills = models.TextField(
+        blank=True,
+        null=True,
+        help_text="О себе, навыки, компетенции",
+        verbose_name="Общая информация",
+    )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Создано")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Обновлено")
 

@@ -35,5 +35,5 @@ def edit_resume(request):
             return redirect("resumes:resume_profile_view")
     else:
         form = ResumeForm(instance=resume)
-        context = {"user": user, "resume": resume, "form": form}
+    context = {"user": user, "resume": resume, "form": form}
     return render(request, "resumes/edit_resume.html", context)

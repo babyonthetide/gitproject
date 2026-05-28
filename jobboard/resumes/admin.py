@@ -14,6 +14,7 @@ class ResumeAdmin(admin.ModelAdmin):
         "phone",
         "desired_salary",
         "created_at",
+        "skills",
     )
     list_filter = ("gender", "created_at")
     search_fields = ("last_name", "first_name", "phone", "user__username")
@@ -31,6 +32,7 @@ class ResumeAdmin(admin.ModelAdmin):
                     "phone",
                     "date_of_birth",
                     "profession",
+                    "skills",
                 )
             },
         ),

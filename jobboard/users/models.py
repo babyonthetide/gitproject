@@ -15,7 +15,6 @@ class Profile(models.Model):
         validators=[validate_avatar_size],
         verbose_name="Аватар",
     )
-    bio = models.TextField(blank=True, null=True, verbose_name="Биография")
     phone = models.CharField(
         max_length=20, unique=True, blank=True, null=True, verbose_name="Телефон"
     )
