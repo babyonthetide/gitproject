@@ -5,3 +5,4 @@ env/
 logs/
 */migrations/
 media/
+jobboard/b_creds.py

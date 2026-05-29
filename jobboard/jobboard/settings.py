@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import db_creds
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -74,11 +75,11 @@ WSGI_APPLICATION = "jobboard.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "jobboard_db",
-        "USER": "jobboard_user",
-        "PASSWORD": "projectpass",
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
+        "NAME": db_creds.db["NAME"],
+        "USER": db_creds.db["USER"],
+        "PASSWORD": db_creds.db["PASSWORD"],
+        "HOST": db_creds.db["HOST"],
+        "PORT": db_creds.db["PORT"],
     }
 }
 
